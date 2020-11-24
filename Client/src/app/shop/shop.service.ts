@@ -5,6 +5,7 @@ import { IBrand } from '../share/models/brand';
 import { IProductType } from '../share/models/productType';
 import { map } from 'rxjs/operators';
 import { ShopParams } from '../share/models/shopParams';
+import { IProduct } from '../share/models/Product';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class ShopService {
     params = params.append('Sort', shopParams.sort); // ya está inicealizado: name
     params = params.append('pageIndex', shopParams.pageNumber.toString());
     params = params.append('pageSize', shopParams.pageSize.toString());
-    
+
 
     if (shopParams.search){
       params = params.append('search', shopParams.search);
@@ -41,6 +42,18 @@ export class ShopService {
           map(res => res.body)
         );
   }
+
+  /**
+   * Devuelve un observable<Product> por id
+   * @param id identificador del producto
+   */
+  getProduc(id: number){
+    return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
+  }
+
+
+
+
   getBrands(){
     return this.http.get<IBrand[]>(this.baseUrl + 'products/brands');
   }
