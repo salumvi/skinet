@@ -1,0 +1,17 @@
+<div class="container mt-5">
+  <h2>Internal Error Server - refresca la página y la exception desaparecerá</h2>
+  <ng-container *ngIf="error">
+    <h5 class="text-danger">Error: {{ error?.menssage}}</h5>
+    <p class="font-weight-bold">Nota: Si estás viendo esto, probablemente Ángular no sea el responsable</p>
+    <p>¿Qué quieres hacer?</p>
+    <ol>
+      <li>Open chome develioper tools</li>
+      <li>Inspect the network tab</li>
+      <li>Ceck the failing request</li>
+      <li>Examine this request URL - if we thr same response in Postman, then the issue is NOT with Angular</li>
+    </ol>
+    <p> Following os the stack trace - this is where your investigation should start!</p>
+    <code class="mt-5" style="background-color: whitesmoke;">{{error?.details}}</code>
+  </ng-container>
+
+</div>
