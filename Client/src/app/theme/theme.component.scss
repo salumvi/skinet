@@ -1,0 +1,21 @@
+.dropdown-menu.show[aria-labelledby="themes"] {
+    display: flex;
+    width: 420px;
+    flex-wrap: wrap;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212121;
+    text-align: inherit;
+    white-space: nowrap;
+    //background-color: transparent;
+    border: 0;
+}
+.dropdown-menu.show[aria-labelledby="themes"] .dropdown-item {
+    width: 33.333%;
+}

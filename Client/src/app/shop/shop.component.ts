@@ -13,6 +13,8 @@ import { ShopParams } from '../share/models/shopParams';
 })
 export class ShopComponent implements OnInit {
 
+
+
   constructor(public shopService: ShopService) { }
 
   products: IProduct[];

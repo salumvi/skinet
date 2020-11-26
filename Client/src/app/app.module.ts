@@ -8,10 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { ErrorsInterceptorService } from './core/interceptors/errors-interceptor.service';
+import { ThemeComponent } from './theme/theme.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptorService } from './core/interceptors/loading-interceptor.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ThemeComponent
   ],
   imports: [
     BrowserModule,
@@ -20,14 +24,12 @@ import { ErrorsInterceptorService } from './core/interceptors/errors-interceptor
     HttpClientModule,
     CoreModule,
     HomeModule,
+    NgxSpinnerModule
 
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorsInterceptorService,
-      multi: true
-    }
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true},
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,7 @@
 <div class="container">
   <div class="row">
+    <ng-container *ngIf="sortOptions && brands && productTypes">
+    
     <section class="col-3">
       <h5 class="text-warning ml-3">Brands</h5>
       <select class="custom-select mb-3" (change)="onSortSelected($event.target.value)">
@@ -21,6 +23,7 @@
 
       </ul>
     </section>
+ 
       
     
     <section class="col-9"  >
@@ -61,4 +64,5 @@
 
 
     </section>
+  </ng-container>
   </div>
