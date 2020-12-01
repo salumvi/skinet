@@ -14,7 +14,7 @@ import { environment } from '../../environments/environment';
 export class ShopService {
 
   constructor(private http: HttpClient) { }
-  baseUrl = environment.baseUrl;
+  baseUrl = environment.apiUrl;
 
 
   getProducts(shopParams: ShopParams){

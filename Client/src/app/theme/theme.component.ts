@@ -37,7 +37,6 @@ export class ThemeComponent implements OnInit {
 
   colocarCheck(){
     const selectores: any = document.getElementsByClassName('dropdown-item');
-    console.log(selectores);
     for (const ref of selectores) {
     
       if (ref.getAttribute('theme').toLowerCase() === this.setS.ajustes.tema ){

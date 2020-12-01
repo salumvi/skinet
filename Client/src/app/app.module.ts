@@ -8,14 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { ErrorsInterceptorService } from './core/interceptors/errors-interceptor.service';
-import { ThemeComponent } from './theme/theme.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptorService } from './core/interceptors/loading-interceptor.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ThemeComponent
   ],
   imports: [
     BrowserModule,

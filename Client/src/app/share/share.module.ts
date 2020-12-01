@@ -6,11 +6,12 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { PagingHeaderComponent } from './components/paging-header/paging-header.component';
 import { PagerComponent } from './components/pager/pager.component';
 import { SearchHederComponent } from './components/search-heder/search-heder.component';
+import { OrderTotalComponent } from './components/order-total/order-total.component';
 
 
 
 @NgModule({
-  declarations: [PagingHeaderComponent, PagerComponent, SearchHederComponent],
+  declarations: [PagingHeaderComponent, PagerComponent, SearchHederComponent, OrderTotalComponent],
   imports: [
     CommonModule,
     PaginationModule.forRoot(),
@@ -23,7 +24,8 @@ import { SearchHederComponent } from './components/search-heder/search-heder.com
     PagingHeaderComponent,
     PagerComponent,
     SearchHederComponent,
-    CarouselModule
+    CarouselModule,
+    OrderTotalComponent
   ]
 })
 export class ShareModule { }
