@@ -6,6 +6,7 @@ using API.Middleware;
 using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,19 +25,20 @@ namespace API
         public Startup(IConfiguration config)
         {
             _config = config;
-
         }
-
-
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddControllers();
             services.AddAutoMapper(typeof(MappingProfiles));
+// se utilizan 3 conexiones a base de datos
             services.AddDbContext<StoreContext>(c =>
                 c.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            
+            services.AddDbContext<AppIdentityDbContext>(c => {
+                c.UseSqlite(_config.GetConnectionString("IdentityConnection"));
+                });
 
 
             services.AddSingleton<IConnectionMultiplexer>( c => {
@@ -44,7 +46,10 @@ namespace API
                 return ConnectionMultiplexer.Connect(configure);
             });    
 
+            // los servicios  de la app    
             services.AddApplicationServices();
+            // identity services
+            services.AddIdentityServices(_config);
             services.AddSwaggerDocumentation();
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
@@ -71,6 +76,7 @@ namespace API
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwaggerDocumentation();
