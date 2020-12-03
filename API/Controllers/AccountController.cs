@@ -97,16 +97,23 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(UserRegister userRegister){
+        public async Task<ActionResult<UserDto>> Register(UserRegisterDto userRegisterDto){
+
+               if (CheckEmailExixtAsync(userRegisterDto.Email).Result.Value) {
+                   return BadRequest(new ApiValidationErrorResponse{
+                       Errors = new []{"Email está en uso"}
+                   });
+
+               }
 
             var user = new AppUser{
-                DisplayName = userRegister.DisplayName,
-                Email = userRegister.Email,
-                UserName = userRegister.Email
+                DisplayName = userRegisterDto.DisplayName,
+                Email = userRegisterDto.Email,
+                UserName = userRegisterDto.Email
     
             };    
             
-            var resut = await _userManager.CreateAsync( user, userRegister.Password);
+            var resut = await _userManager.CreateAsync( user, userRegisterDto.Password);
 
             if(!resut.Succeeded) return Unauthorized(new ApiResponse(400));
 
