@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-center mt-5">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+        <div class="text-center mb-4">
+          <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+        </div>
+     <app-text-imput formControlName="displayName"  [label]= "'Name'" ></app-text-imput>      
+     <app-text-imput formControlName="email"  [label]= "'Email Address'" ></app-text-imput>
+     <app-text-imput formControlName="password"  [label]= "'Password'"  [type]="'password'"></app-text-imput>
+     <app-text-imput formControlName="password2"  [label]= "'Password2'"  [type]="'password'"></app-text-imput>
+      <ul class="text-danger list-unstyled" *ngIf="errors">
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+    
+     <button 
+     [disabled] = "registerForm.invalid || registerForm.status === 'PENDING'"
+      class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+      </form>
+    </div>

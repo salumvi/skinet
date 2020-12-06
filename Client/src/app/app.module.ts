@@ -10,6 +10,7 @@ import { HomeModule } from './home/home.module';
 import { ErrorsInterceptorService } from './core/interceptors/errors-interceptor.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptorService } from './core/interceptors/loading-interceptor.service';
+import { AccountModule } from './account/account.module';
 
 @NgModule({
   declarations: [
