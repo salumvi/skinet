@@ -21,17 +21,20 @@ namespace API.Controllers
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
         private readonly IGenericRepository<ProductType> _producTypeRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public ProductsController(
             IGenericRepository<Product> productRepo,
             IGenericRepository<ProductBrand> productBrandRepo,
             IGenericRepository<ProductType> producTypeRepo,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _productRepo = productRepo;
             _productBrandRepo = productBrandRepo;
             _producTypeRepo = producTypeRepo;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -44,6 +47,8 @@ namespace API.Controllers
             //para contar los prductos solo con filtros
             var countSpec =new ProductWithFiltersForCountSpecification(productsSpecParams);
 
+            
+          var ti =  _unitOfWork.Repository<Product>().CountAsync(countSpec);
             var totalItems = await _productRepo.CountAsync(countSpec);
 
             var productos = await _productRepo.ListAsync(spec);
