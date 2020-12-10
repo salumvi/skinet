@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   loadCurrentuser() {
     const token = localStorage.getItem('AppToken');
     this.accS.loadCurrentUser(token).subscribe(
-      () => console.log('usuario inicializaco'),
+      () => console.log('usuario inicializado'),
       (error) => console.log(error)
     );
   }

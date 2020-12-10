@@ -20,7 +20,7 @@ namespace API.Helpers
                 return _config["ApiUrl"] + source.PictureUrl;
             }
 
-            return null; // podemos poner una imagen tipo.
+            return  _config["ApiUrl"] + "images/products/no-image.jpg"; // podemos poner una imagen tipo.
         }
     }
 }

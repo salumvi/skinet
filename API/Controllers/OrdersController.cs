@@ -27,6 +27,7 @@ namespace API.Controllers
         public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderDto orderDto)
         {
             var email = HttpContext.User.RetrieveEmailFromPrincipal();
+            var http = HttpContext;
 
             var address = _mapper.Map<AddressDto, Address>(orderDto.ShipToAddress);
 

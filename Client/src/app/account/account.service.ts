@@ -21,7 +21,7 @@ export class AccountService {
   // }
 
   loadCurrentUser(token: string) {
-    if (token) {
+    if (!token) {
       this.currentUserSource.next(null);
       return of(null);
    
