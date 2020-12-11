@@ -32,6 +32,12 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [this.valS.requiredPersonal, this.valS.patternPass])
     });
 
+
+    this.loginForm.reset({
+      email:'bob@test.com',
+      password: 'Pa$$w0rd'
+    })
+
   }
 
   onSubmit(){

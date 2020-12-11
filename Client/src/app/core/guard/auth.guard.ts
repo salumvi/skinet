@@ -17,7 +17,6 @@ constructor(private accS: AccountService, private ruta: Router){}
     return this.accS.currentUser$.pipe(
       map(auth => {
         if(auth){
-          console.log(auth);
           return true;
         }
         this.ruta.navigate(['account/login'], {queryParams:{url: state.url}});

@@ -91,6 +91,7 @@ export class ShopComponent implements OnInit {
     this.getProducts();
   }
   onReset(event){
+    
     console.log(event);
     this.shopParams = new ShopParams();
     this.getProducts();

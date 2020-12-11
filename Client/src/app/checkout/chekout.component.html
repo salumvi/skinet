@@ -1,1 +1,26 @@
-<h1>Solo usuario autorizados pueden ver esto</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-8">
+
+            <app-stepper [linearModeSelected]="false" #appStepper>
+                <cdk-step [label]="'Address'" [completed]="(chekOutForm.get('addressForm')).valid">
+                    <app-checkout-address (getAddress)="onGetAddress($event)" [checkOutForm]="chekOutForm">
+                    </app-checkout-address>
+                </cdk-step>
+                <cdk-step [label]="'Delivery'" [completed]="(chekOutForm.get('deliveryForm')).valid">
+                    <app-checkout-delivery [checkOutForm]="chekOutForm"></app-checkout-delivery>
+                </cdk-step>
+                <cdk-step [label]="'Review'">
+                    <app-checkout-review></app-checkout-review>
+                </cdk-step>
+                <cdk-step [label]="'Payment'">
+                    <app-checkout-payment [checkOutForm]="chekOutForm"></app-checkout-payment>
+                </cdk-step>
+            </app-stepper>
+        </div>
+        <div class="col-4">
+            <app-order-total></app-order-total>
+        </div>
+    </div>
+
+</div>

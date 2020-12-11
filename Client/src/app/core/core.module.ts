@@ -22,7 +22,7 @@ import { ShareModule } from '../share/share.module';
     CommonModule,
     RouterModule,
     ToastrModule.forRoot({
-      timeOut: 10000,
+      timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),

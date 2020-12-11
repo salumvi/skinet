@@ -5,6 +5,7 @@ import { IUser, IUserRegister } from '../share/models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { IAddress } from '../share/models/address';
 
 @Injectable({
   providedIn: 'root',
@@ -20,16 +21,22 @@ export class AccountService {
   //   return this.currentUserSource. value;
   // }
 
+  getAddressUser() {
+    return this.http.get<IAddress>(this.baseUrl + 'account/address');
+  }
+  updateUserAddress(address: IAddress) {
+    return this.http.put<IAddress>(this.baseUrl + 'account/address', address);
+  }
+
   loadCurrentUser(token: string) {
     if (!token) {
       this.currentUserSource.next(null);
       return of(null);
-   
     }
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 
-    return this.http.get(this.baseUrl + 'account', { headers }).pipe(
+    return this.http.get(this.baseUrl + 'account').pipe(
       map((user: IUser) => {
         if (user) {
           localStorage.setItem('AppToken', user.token);
