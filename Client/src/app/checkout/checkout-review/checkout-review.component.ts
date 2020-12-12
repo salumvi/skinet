@@ -1,30 +1,27 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { BasketService } from '../../basket/basket.service';
-import { IBasket, IBasketItem } from '../../share/models/basket';
+import { IBasket, IBasketItem, IBasketTotals } from '../../share/models/basket';
 
 @Component({
   selector: 'app-checkout-review',
   templateUrl: './checkout-review.component.html',
   styleUrls: ['./checkout-review.component.scss']
 })
-export class CheckoutReviewComponent implements OnInit, OnDestroy {
+export class CheckoutReviewComponent implements OnInit {
 
-  items: IBasketItem[]
-  f: Subscription;
+
+  basket$: Observable<IBasket>;
   isBasket=false;
   isOrder = false;
   constructor(private basS: BasketService) { }
   
 
   ngOnInit(): void {
-   this.f = this.basS.basket$.subscribe(basket => {
-     this.items=basket.items;
-   })
+  
+    this.basket$= this.basS.basket$;
   }
 
-  ngOnDestroy(): void {
-    this.f.closed;
-  }
+
 
 }
