@@ -11,7 +11,6 @@ import { ErrorsInterceptorService } from './core/interceptors/errors-interceptor
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptorService } from './core/interceptors/loading-interceptor.service';
 import { JwtInterceptor } from './core/interceptors/jwt-interceptor';
-import { AccountModule } from './account/account.module';
 
 
 @NgModule({

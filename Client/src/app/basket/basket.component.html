@@ -7,19 +7,21 @@
     </alert>
   </div>
 
-  <div *ngIf="basket$ | async">
+  <div *ngIf="(basket$ | async) as basket">
     <div class="pb-5">
         <div class="container">
             <div class="row">
                 <div class="col-12 py-5 mb-1">
          
-
-                  <app-basket-summary [isBasket]="true"></app-basket-summary>
+                  <app-basket-summary [items]="basket.items" [isBasket]="true" [isOrder]="true"></app-basket-summary>
                 </div>
             </div>
             <div class="row">
-              <div class="col-6 offset-6">
-                <app-order-total></app-order-total>
+              <div class="col-6 offset-6" *ngIf="(basketTotal$ | async) as bt">
+                
+                <app-order-total [total]="bt.total" [subtotal]="bt.subTotal" [shipping]="bt.shipping"></app-order-total>
+
+
                 <a routerLink ="/checkout" class="btn btn-outline-primary py-2 btn-block">
                   Pagar
                 </a>
