@@ -21,6 +21,7 @@ export class ChekoutComponent implements OnInit {
   ngOnInit(): void {
     this.createChekOutForm();
     this.setDefaultAddressUser();
+    this.getDeliveryMethodsValue();
     this.basketTotal$ = this.basS.basketTotal$;
   }
 
@@ -38,7 +39,11 @@ export class ChekoutComponent implements OnInit {
         delivery: [null, Validators.required],
       }),
       paymentForm: this.fb.group({
-        payment: [null, Validators.required],
+        nameOnCard: [null, Validators.required]
+        // cardNumber: [null, Validators.required],
+        // cardExpired: [null, Validators.required],
+        // cardCvc: [null, Validators.required],
+
       }),
     });
   }
@@ -52,7 +57,15 @@ export class ChekoutComponent implements OnInit {
     if(address){
       this.chekOutForm.controls.addressForm.reset({...address})
     }
-  })
+  },error => console.log(error) )
   }
+
+  getDeliveryMethodsValue(){
+    const basket = this.basS.getCurrentBasketValue();
+    if(basket && basket.deliveryMethodId !== null){
+      this.chekOutForm.get('deliveryForm').patchValue({delivery: basket.deliveryMethodId.toString()});
+    }
+  }
+
  
 }

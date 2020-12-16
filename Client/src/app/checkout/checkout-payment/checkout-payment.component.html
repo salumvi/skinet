@@ -1,9 +1,39 @@
-<p>checkout-payment works!</p>
+
+
+<div class="my-4" [formGroup]="checkOutForm">
+    <div class="row">
+        <div class="col-12 form-group" formGroupName="paymentForm">
+            <app-text-imput [label]="'Name on Card'" formControlName="nameOnCard"></app-text-imput>
+        </div>
+        <div class="col-6">
+            <div class="form-control py-3" #cardNumber></div>
+        </div>
+        <div class="col-3">
+            <div class="form-control py-3" #cardExpiry></div>
+        </div>
+        <div class="col-3">
+            <div class="form-control py-3" #cardCvc></div>
+        </div>
+    </div> 
+    <div class="row" *ngIf="cardErrors">
+        <div class="col-12">
+            <span class="text-danger">{{cardErrors}}</span>
+        </div>
+    </div>
+
+</div>
 <div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5">
     <button type="button" cdkStepperPrevious class="btn btn-outline-primary">
         <i class="fa fa-angle-left"></i>Go to Review
     </button>
-    <button type="button" (click)="submitOrder()" class="btn btn-primary">
-        Submit Order
+    <button [disabled]="loading || 
+            checkOutForm.get('paymentForm').invalid || 
+            !this.cardCvcComplete || 
+            !this.cardExpiryComplete || 
+            !this.cardExpiryComplete" 
+            type="button" 
+            (click)="submitOrder()" class="btn btn-primary">
+        Submit Order<i class="fa fa-angle-right"></i>
+        <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
     </button>
 </div>

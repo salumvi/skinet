@@ -10,11 +10,12 @@ namespace Core.Entities.OrderAggregate
         {
         }
 
-        public Order(IReadOnlyList<OrderItem> orderItems, string bayerEmail, Address shipAddress, DeliveryMethod deliveryMethod)
+        public Order(IReadOnlyList<OrderItem> orderItems, string bayerEmail, Address shipAddress, DeliveryMethod deliveryMethod, string paymentIntentId)
         {
             BayerEmail = bayerEmail;
             ShipAddress = shipAddress;
             DeliveryMethod = deliveryMethod;
+            PaymentIntentId = paymentIntentId;
             OrderItems = orderItems;
             // se podría calcular el subtotal aquí
             var st = orderItems.Sum(o => o.Price * o.Quantity);

@@ -17,6 +17,11 @@ export class CheckoutDeliveryComponent implements OnInit {
     private basS: BasketService) { }
 
   ngOnInit(): void {
+    this.getDeliveryMethods();
+
+  }
+
+  private getDeliveryMethods(){
     this.cheS.getDeliveryMethods().subscribe(
       del => {
         this.deliveryMethodos=del;
@@ -24,9 +29,7 @@ export class CheckoutDeliveryComponent implements OnInit {
     )
   }
   setDeliveryPrice(deliveryMethod: IDeliveryMethod){
-      
     this.basS.setDeliveriPrice(deliveryMethod);
-
   }
 
 }
