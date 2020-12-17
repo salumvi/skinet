@@ -38,26 +38,27 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        [Cached(600)]
         [HttpGet]
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> Getproducts([FromQuery] ProductsSpecParams productsSpecParams)
         {
             //con filtos y ordenaciones
             var spec = new ProductsWithTypesAndBrandsSpecification(productsSpecParams);
-            
-            //para contar los prductos solo con filtros
-            var countSpec =new ProductWithFiltersForCountSpecification(productsSpecParams);
 
-            
-          var ti =  _unitOfWork.Repository<Product>().CountAsync(countSpec);
+            //para contar los prductos solo con filtros
+            var countSpec = new ProductWithFiltersForCountSpecification(productsSpecParams);
+
+
+            var ti = _unitOfWork.Repository<Product>().CountAsync(countSpec);
             var totalItems = await _productRepo.CountAsync(countSpec);
 
             var productos = await _productRepo.ListAsync(spec);
-            
-            var data = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(productos) ;
 
-            return Ok(new Pagination<ProductToReturnDto>{Data=data, Count=totalItems,PageSize=productsSpecParams.PageSize,PageIndex=productsSpecParams.PageIndex });
+            var data = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(productos);
+
+            return Ok(new Pagination<ProductToReturnDto> { Data = data, Count = totalItems, PageSize = productsSpecParams.PageSize, PageIndex = productsSpecParams.PageIndex });
         }
-
+        [Cached(600)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -65,19 +66,22 @@ namespace API.Controllers
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
             var p = await _productRepo.GetEntityWithSpec(spec);
-            if(p==null){
+            if (p == null)
+            {
                 return NotFound(new ApiResponse(404));
             }
             return Ok(_mapper.Map<ProductToReturnDto>(p));
         }
-
+        [Cached(600)]
         [HttpGet("brands")]
-        public async Task<ActionResult<List<ProductBrand>>> GetProductBrands(){
+        public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
+        {
             return Ok(await _productBrandRepo.ListAllAsync());
         }
-
-             [HttpGet("types")]
-        public async Task<ActionResult<List<ProductType>>> GetProductTypes(){
+        [Cached(600)]
+        [HttpGet("types")]
+        public async Task<ActionResult<List<ProductType>>> GetProductTypes()
+        {
             return Ok(await _producTypeRepo.ListAllAsync());
         }
 

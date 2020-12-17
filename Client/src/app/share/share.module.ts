@@ -8,7 +8,7 @@ import { PagingHeaderComponent } from './components/paging-header/paging-header.
 import { PagerComponent } from './components/pager/pager.component';
 import { SearchHederComponent } from './components/search-heder/search-heder.component';
 import { OrderTotalComponent } from './components/order-total/order-total.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextImputComponent } from './components/text-imput/text-imput.component';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import { StepperComponent } from './components/stepper/stepper.component';
@@ -25,6 +25,7 @@ import { RouterModule } from '@angular/router';
     AlertModule.forRoot(),
     CarouselModule.forRoot(),
     ReactiveFormsModule,
+    FormsModule,
     BsDropdownModule.forRoot(),
     CdkStepperModule,
     RouterModule
@@ -37,6 +38,7 @@ import { RouterModule } from '@angular/router';
     SearchHederComponent,
     CarouselModule,
     OrderTotalComponent,
+    FormsModule,
     ReactiveFormsModule,
     BsDropdownModule,
     TextImputComponent,
