@@ -30,7 +30,7 @@ export class LoadingInterceptorService implements HttpInterceptor {
     }
     this.busS.busy();
     return next.handle(req).pipe(
-      delay(300),
+      // delay(300), // para retrasar la respuesta y simular un tiempo de respuesta
       finalize(() => {
         this.busS.idle();
       })

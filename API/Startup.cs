@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using API.Errors;
 using API.Extension;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
@@ -26,33 +28,58 @@ namespace API
         {
             _config = config;
         }
-        // This method gets called by the runtime. Use this method to add services to the container.
+
+        public void ConfigureDevelpmentServices(IServiceCollection services)
+        {
+            services.AddDbContext<StoreContext>(c =>
+                c.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<AppIdentityDbContext>(c =>
+            {
+                c.UseSqlite(_config.GetConnectionString("IdentityConnection"));
+            });
+
+            ConfigureServices(services);
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDbContext<StoreContext>(c =>
+                c.UseMySql(_config.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<AppIdentityDbContext>(c =>
+            {
+                c.UseMySql(_config.GetConnectionString("IdentityConnection"));
+            });
+
+            ConfigureServices(services);
+        }
+
+
+
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddControllers();
             services.AddAutoMapper(typeof(MappingProfiles));
-// se utilizan 3 conexiones a base de datos
-            services.AddDbContext<StoreContext>(c =>
-                c.UseSqlite(_config.GetConnectionString("DefaultConnection")));
-            
-            services.AddDbContext<AppIdentityDbContext>(c => {
-                c.UseSqlite(_config.GetConnectionString("IdentityConnection"));
-                });
+           
 
 
-            services.AddSingleton<IConnectionMultiplexer>( c => {
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
                 var configure = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"), true);
                 return ConnectionMultiplexer.Connect(configure);
-            });    
+            });
 
             // los servicios  de la app    
             services.AddApplicationServices();
             // identity services
             services.AddIdentityServices(_config);
             services.AddSwaggerDocumentation();
-            services.AddCors(opt => {
-                opt.AddPolicy("CorsPolicy", policy => {
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
@@ -74,6 +101,12 @@ namespace API
 
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+                RequestPath = "/content"
+            }
+                );
             app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
@@ -84,6 +117,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }

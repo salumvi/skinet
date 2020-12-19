@@ -18,22 +18,13 @@ namespace API.Controllers
 
     public class ProductsController : BaseApiController
     {
-        private readonly IGenericRepository<Product> _productRepo;
-        private readonly IGenericRepository<ProductBrand> _productBrandRepo;
-        private readonly IGenericRepository<ProductType> _producTypeRepo;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public ProductsController(
-            IGenericRepository<Product> productRepo,
-            IGenericRepository<ProductBrand> productBrandRepo,
-            IGenericRepository<ProductType> producTypeRepo,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
-            _productRepo = productRepo;
-            _productBrandRepo = productBrandRepo;
-            _producTypeRepo = producTypeRepo;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -49,10 +40,10 @@ namespace API.Controllers
             var countSpec = new ProductWithFiltersForCountSpecification(productsSpecParams);
 
 
-            var ti = _unitOfWork.Repository<Product>().CountAsync(countSpec);
-            var totalItems = await _productRepo.CountAsync(countSpec);
+            var ti = await _unitOfWork.Repository<Product>().CountAsync(countSpec);
+            var totalItems = await _unitOfWork.Repository<Product>().CountAsync(countSpec);
 
-            var productos = await _productRepo.ListAsync(spec);
+            var productos = await _unitOfWork.Repository<Product>().ListAsync(spec);
 
             var data = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(productos);
 
@@ -65,7 +56,7 @@ namespace API.Controllers
         public async Task<ActionResult<ProductToReturnDto>> Getproduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
-            var p = await _productRepo.GetEntityWithSpec(spec);
+            var p = await _unitOfWork.Repository<Product>().GetEntityWithSpec(spec);
             if (p == null)
             {
                 return NotFound(new ApiResponse(404));
@@ -76,13 +67,13 @@ namespace API.Controllers
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
-            return Ok(await _productBrandRepo.ListAllAsync());
+            return Ok(await _unitOfWork.Repository<ProductBrand>().ListAllAsync());
         }
         [Cached(600)]
         [HttpGet("types")]
         public async Task<ActionResult<List<ProductType>>> GetProductTypes()
         {
-            return Ok(await _producTypeRepo.ListAllAsync());
+            return Ok(await _unitOfWork.Repository<ProductType>().ListAllAsync());
         }
 
     }
